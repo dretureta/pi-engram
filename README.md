@@ -1,32 +1,48 @@
 # pi-engram
 
-`pi-engram` is a planned pi extension that integrates [Engram](https://github.com/Gentleman-Programming/engram) with pi.
+`pi-engram` is a pi extension that integrates [Engram](https://github.com/Gentleman-Programming/engram) persistent memory into pi.
 
-## Goal
+## What it does
 
-The extension will add Engram-backed persistent memory to pi by:
-
-- exposing Engram memory actions as native pi tools
-- using pi lifecycle hooks to manage sessions automatically
-- injecting Engram’s Memory Protocol into the active prompt
-- preserving useful session context across compaction and shutdown
-- redacting `<private>...</private>` content before persistence
+- exposes Engram memory operations as native pi tools
+- uses pi lifecycle hooks to manage Engram sessions automatically
+- injects Engram’s Memory Protocol into the active system prompt
+- preserves useful session context across compaction and shutdown
+- redacts `<private>...</private>` content before persistence
+- adds status and recovery commands for manual control
 
 ## Status
 
-This repository is in early setup. The implementation has not started yet.
+This project is under active implementation.
 
-## Planned structure
+## Requirements
 
-- `openspec/` — proposal, design, and implementation tasks
-- `plan.md` — implementation plan for the extension
+- pi
+- the `engram` binary available on your PATH, or configured via environment variables
+- a local Engram data directory
+
+## Environment variables
+
+- `ENGRAM_BIN` — path to the Engram binary, default: `engram`
+- `ENGRAM_PORT` — local HTTP port, default: `7437`
+- `ENGRAM_MCP_ARGS` — extra arguments for the MCP server
+- `PI_ENGRAM_SUMMARY_MODEL` — optional model override for summaries
+- `PI_ENGRAM_DISABLE_PASSIVE_CAPTURE` — set to `1` to disable passive capture
+- `PI_ENGRAM_DISABLE_PROMPT_CAPTURE` — set to `1` to disable prompt capture
+- `PI_ENGRAM_MANAGED_DAEMON` — set to `1` to allow the extension to stop a daemon it started
+
+## Planned layout
+
+- `src/` — extension code
+- `openspec/` — proposal, design, and tasks for the change
+- `plan.md` — implementation plan used to bootstrap the work
 
 ## Notes
 
-Engram runs as a local service and provides:
+Engram already provides:
 
 - an HTTP API
 - an MCP server
-- CLI utilities for memory search and session management
+- CLI commands for memory search and session management
 
-`pi-engram` will adapt those capabilities into pi’s extension system.
+`pi-engram` adapts those capabilities into pi’s extension system so they work through pi hooks and native tools.
