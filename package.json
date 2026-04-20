@@ -12,6 +12,15 @@
     "memory",
     "agent"
   ],
+  "files": [
+    "src/**",
+    "README.md",
+    "LICENSE",
+    "install.sh",
+    "uninstall.sh",
+    "dev.sh",
+    "package.json"
+  ],
   "pi": {
     "extensions": [
       "./src/index.ts"
@@ -20,7 +29,10 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "tsc -p tsconfig.json --noEmit"
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "install:pi": "bash ./install.sh",
+    "uninstall:pi": "bash ./uninstall.sh",
+    "dev:pi": "bash ./dev.sh"
   },
   "dependencies": {
     "@mariozechner/pi-coding-agent": "*",

@@ -15,6 +15,32 @@
 
 This project is under active implementation.
 
+## Package install
+
+This repository is a pi package. The recommended install flow is:
+
+```bash
+./install.sh
+```
+
+Or, if you want to register the package manually:
+
+```bash
+pi install /absolute/path/to/pi-engram
+```
+
+For quick local development you can still use the one-off extension loader:
+
+```bash
+pi -e ./src/index.ts
+```
+
+### Helper scripts
+
+- `./install.sh` — install the package into pi
+- `./dev.sh` — create/update the local auto-discovery shim in `~/.pi/agent/extensions/pi-engram/`
+- `./uninstall.sh` — remove the package entry and clean up the dev shim
+
 ## Requirements
 
 - pi
