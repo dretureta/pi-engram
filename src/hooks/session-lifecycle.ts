@@ -25,6 +25,16 @@ export function registerSessionLifecycle(pi: ExtensionAPI, deps: PiEngramLifecyc
     const restored = restoreRuntimeState(ctx.sessionManager.getEntries() as Array<{ type?: string; customType?: string; data?: unknown }>)
     Object.assign(deps.runtime, restored)
 
+    ctx.ui.setWorkingIndicator({
+      frames: [
+        ctx.ui.theme.fg("muted", "⠋ Engram"),
+        ctx.ui.theme.fg("accent", "⠙ Engram"),
+        ctx.ui.theme.fg("accent", "⠹ Engram"),
+        ctx.ui.theme.fg("muted", "⠸ Engram"),
+      ],
+      intervalMs: 120,
+    })
+
     deps.runtime.project = detectProjectName(ctx.cwd)
     deps.runtime.sessionId = ctx.sessionManager.getSessionFile?.() ?? ctx.cwd
     deps.runtime.engramSessionId = deriveEngramSessionId({
@@ -70,8 +80,11 @@ export function registerSessionLifecycle(pi: ExtensionAPI, deps: PiEngramLifecyc
     )
   })
 
-  pi.on("session_shutdown", async (_event, ctx) => {
-    if (deps.runtime.project && deps.runtime.engramSessionId) {
+  pi.on("session_shutdown", async (event, ctx) => {
+    const reason = (event as { reason?: string }).reason
+    const isReload = reason === "reload"
+
+    if (deps.runtime.project && deps.runtime.engramSessionId && !isReload) {
       const summary = buildSessionSummary(ctx.sessionManager.getBranch() as unknown[], deps.runtime.project)
       if (summary.trim()) {
         await deps.bridge.ensureReady().catch(() => undefined)
@@ -88,7 +101,10 @@ export function registerSessionLifecycle(pi: ExtensionAPI, deps: PiEngramLifecyc
     }
 
     await persistState(pi, deps.runtime)
+    ctx.ui.setWorkingIndicator()
     await deps.bridge.close().catch(() => undefined)
-    await deps.http.shutdown().catch(() => undefined)
+    if (!isReload) {
+      await deps.http.shutdown().catch(() => undefined)
+    }
   })
 }
