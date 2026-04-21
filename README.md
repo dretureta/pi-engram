@@ -17,16 +17,20 @@ This project is under active implementation.
 
 ## Package install
 
-This repository is a pi package. The recommended install flow is:
+This repository is a pi extension that is loaded through the global auto-discovery shim in `~/.pi/agent/extensions/pi-engram/`.
+
+The recommended install flow is:
 
 ```bash
 ./install.sh
 ```
 
-Or, if you want to register the package manually:
+That will refresh the global shim and remove any conflicting package registration for this repo.
+
+For development-only reloads, use:
 
 ```bash
-pi install /absolute/path/to/pi-engram
+./dev.sh
 ```
 
 For quick local development you can still use the one-off extension loader:
@@ -37,9 +41,9 @@ pi -e ./src/index.ts
 
 ### Helper scripts
 
-- `./install.sh` — install the package into pi
-- `./dev.sh` — create/update the local auto-discovery shim in `~/.pi/agent/extensions/pi-engram/`
-- `./uninstall.sh` — remove the package entry and clean up the dev shim
+- `./install.sh` — refresh the global auto-discovery shim and clear conflicting package registration
+- `./dev.sh` — create/update only the local auto-discovery shim in `~/.pi/agent/extensions/pi-engram/`
+- `./uninstall.sh` — remove any package entry and clean up the dev shim
 
 ## Requirements
 

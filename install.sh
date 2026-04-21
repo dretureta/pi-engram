@@ -15,7 +15,15 @@ if [ -f "$SHIM_FILE" ] && grep -q "$ROOT_DIR/src/index.ts" "$SHIM_FILE" 2>/dev/n
   rm -rf "$PI_DIR"
 fi
 
-pi install "$ROOT_DIR"
+if command -v pi >/dev/null 2>&1; then
+  pi remove "$ROOT_DIR" >/dev/null 2>&1 || true
+fi
 
-echo "pi-engram installed as a pi package from: $ROOT_DIR"
-echo "If you previously used the global shim, restart pi or run /reload."
+mkdir -p "$PI_DIR"
+cat > "$SHIM_FILE" <<EOF
+export { default } from '$ROOT_DIR/src/index.ts'
+EOF
+
+echo "pi-engram installed via global auto-discovery shim from: $ROOT_DIR"
+echo "Shim refreshed at: $SHIM_FILE"
+echo "If pi is already open, restart it or run /reload."
