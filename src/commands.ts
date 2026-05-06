@@ -22,9 +22,14 @@ export function registerEngramCommands(pi: ExtensionAPI, deps: PiEngramCommandDe
   pi.registerCommand("engram-status", {
     description: "Show Engram status",
     handler: async (_args, ctx) => {
+      const [httpHealthy, syncPhase] = await Promise.all([
+        deps.http.isHealthy(),
+        deps.http.getSyncStatus(deps.runtime.project),
+      ])
       const snapshot = buildStatusSnapshot(deps.runtime, deps.config, {
-        http: await deps.http.isHealthy(),
+        http: httpHealthy,
         mcp: deps.bridge.healthy,
+        syncPhase,
       })
       ctx.ui.notify(joinLines(formatStatusSnapshot(snapshot)), "info")
     },

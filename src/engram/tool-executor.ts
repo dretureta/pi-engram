@@ -45,8 +45,16 @@ export function createEngramToolExecutor(bridge: EngramMcpBridge) {
     try {
       const result = await bridge.callTool(toolName, redactPrivateContentDeep(normalizeToolArgs(params)))
       if (result && typeof result === "object" && "isError" in result && (result as { isError?: boolean }).isError) {
+        const r = result as Record<string, unknown>
+        let message = toText(result)
+        if (r.ambiguous_project === true) {
+          const projects = Array.isArray(r.available_projects) ? (r.available_projects as string[]).join(", ") : ""
+          message += projects
+            ? `\n\nEngram matched multiple projects: ${projects}. Add a .engram/config.json with {"project_name": "<name>"} to pin the project for this repo.`
+            : "\n\nAdd a .engram/config.json with {\"project_name\": \"<name>\"} to pin the project for this repo."
+        }
         return {
-          content: textContent(toText(result)),
+          content: textContent(message),
           isError: true,
           details: result,
         }

@@ -144,6 +144,19 @@ export class EngramHttpDaemon {
     }
   }
 
+  async getSyncStatus(project?: string): Promise<string | undefined> {
+    try {
+      const url = project
+        ? `/sync/status?project=${encodeURIComponent(project)}`
+        : "/sync/status"
+      const value = (await this.requestJson(url)) as { phase?: string } | null
+      if (typeof value?.phase === "string") return value.phase
+      return undefined
+    } catch {
+      return undefined
+    }
+  }
+
   async shutdown(): Promise<void> {
     if (!this.child || !this.startedByExtension || !this.config.managedDaemon) return
     try {

@@ -66,12 +66,17 @@ pi -e ./src/index.ts
 - `PI_ENGRAM_DISABLE_PASSIVE_CAPTURE` — set to `1` to disable passive capture
 - `PI_ENGRAM_DISABLE_PROMPT_CAPTURE` — set to `1` to disable prompt capture
 - `PI_ENGRAM_MANAGED_DAEMON` — set to `1` to allow the extension to stop a daemon it started
+- `PI_ENGRAM_SAVE_NUDGE_MINUTES` — minutes of inactivity before the save nudge fires, default: `20`
 
-## Planned layout
+## Project name disambiguation
 
-- `src/` — extension code
-- `openspec/` — proposal, design, and tasks for the change
-- `plan.md` — implementation plan used to bootstrap the work
+If Engram cannot determine the project from the working directory (e.g. in a monorepo), create a `.engram/config.json` at the repo root:
+
+```json
+{"project_name": "my-project"}
+```
+
+This takes highest priority in project detection (above git remote and directory name).
 
 ## Notes
 
