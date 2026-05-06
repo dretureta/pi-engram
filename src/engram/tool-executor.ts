@@ -26,10 +26,24 @@ function toText(result: unknown): string {
   return JSON.stringify(result, null, 2)
 }
 
+function normalizeToolArgs(params: Record<string, unknown>) {
+  const normalized = { ...params }
+  const scope = normalized.scope
+  if (typeof scope === "string") {
+    const value = scope.trim().toLowerCase()
+    if (value === "project" || value === "personal") {
+      normalized.scope = value
+    } else {
+      delete normalized.scope
+    }
+  }
+  return normalized
+}
+
 export function createEngramToolExecutor(bridge: EngramMcpBridge) {
   return async function executeEngramTool(toolName: string, params: Record<string, unknown>) {
     try {
-      const result = await bridge.callTool(toolName, redactPrivateContentDeep(params))
+      const result = await bridge.callTool(toolName, redactPrivateContentDeep(normalizeToolArgs(params)))
       if (result && typeof result === "object" && "isError" in result && (result as { isError?: boolean }).isError) {
         return {
           content: textContent(toText(result)),

@@ -11,6 +11,8 @@ describe("engram tool registry", () => {
         "mem_context",
         "mem_session_summary",
         "mem_merge_projects",
+        "mem_current_project",
+        "mem_judge",
       ]),
     )
   })

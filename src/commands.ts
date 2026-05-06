@@ -65,8 +65,7 @@ export function registerEngramCommands(pi: ExtensionAPI, deps: PiEngramCommandDe
       await deps.bridge.ensureReady()
       await deps.bridge.callTool("mem_session_summary", {
         session_id: deps.runtime.engramSessionId,
-        project: deps.runtime.project,
-        summary,
+        content: summary,
       })
       ctx.ui.notify("Engram session summary saved", "info")
     },

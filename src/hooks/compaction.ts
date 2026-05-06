@@ -29,8 +29,7 @@ export function registerCompactionLifecycle(pi: ExtensionAPI, deps: PiEngramComp
     await deps.bridge.ensureReady().catch(() => undefined)
     await deps.bridge.callTool("mem_session_summary", {
       session_id: deps.runtime.engramSessionId,
-      project: deps.runtime.project,
-      summary,
+      content: summary,
     }).catch(() => undefined)
 
     const firstKeptEntryId = event.preparation?.firstKeptEntryId

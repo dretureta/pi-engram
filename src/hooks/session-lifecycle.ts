@@ -90,12 +90,11 @@ export function registerSessionLifecycle(pi: ExtensionAPI, deps: PiEngramLifecyc
         await deps.bridge.ensureReady().catch(() => undefined)
         await deps.bridge.callTool("mem_session_summary", {
           session_id: deps.runtime.engramSessionId,
-          project: deps.runtime.project,
-          summary,
+          content: summary,
         }).catch(() => undefined)
       }
       await deps.bridge.callTool("mem_session_end", {
-        session_id: deps.runtime.engramSessionId,
+        id: deps.runtime.engramSessionId,
       }).catch(() => undefined)
       await deps.http.endSession(deps.runtime.engramSessionId)
     }

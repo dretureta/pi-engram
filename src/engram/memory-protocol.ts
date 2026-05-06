@@ -16,6 +16,8 @@ You have access to Engram persistent memory via native pi tools.
 ### Project
 - Current project: ${project}
 - Prefer project-scoped memory unless the memory is clearly personal.
+- Use \`mem_current_project\` first if you need to confirm which project Engram will write to.
+- Do not pass \`project\` to write tools; Engram auto-detects it from the working directory.
 
 ### Behavior
 - Save proactively. Do not wait to be asked.

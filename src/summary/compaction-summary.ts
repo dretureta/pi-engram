@@ -12,7 +12,7 @@ export function buildCompactionSummary(entries: unknown[], project: string): str
   const goal = recent[0] ?? `Continue work in ${project}.`
 
   return [
-    `FIRST ACTION REQUIRED: Call mem_session_summary with the content of this compacted summary. Use project: '${project}'. This preserves what was accomplished before compaction. Do this BEFORE any other work.`,
+    "FIRST ACTION REQUIRED: Call mem_session_summary with the content of this compacted summary. This preserves what was accomplished before compaction. Do this BEFORE any other work.",
     "",
     "## Goal",
     goal,

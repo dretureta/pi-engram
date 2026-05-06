@@ -15,6 +15,12 @@
 
 This project is under active implementation.
 
+## Compatibility
+
+- Requires pi 0.69.0 or newer.
+- Uses TypeBox 1.x via the `typebox` package.
+- The extension is kept current with the latest pi hook and SDK changes as they land.
+
 ## Package install
 
 This repository is a pi extension that is loaded through the global auto-discovery shim in `~/.pi/agent/extensions/pi-engram/`.
@@ -47,7 +53,7 @@ pi -e ./src/index.ts
 
 ## Requirements
 
-- pi
+- pi 0.69.0 or newer
 - the `engram` binary available on your PATH, or configured via environment variables
 - a local Engram data directory
 

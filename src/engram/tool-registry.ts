@@ -13,8 +13,11 @@ export const engramTools: EngramToolDefinition[] = [
   {
     name: "mem_save",
     description: "Save a structured memory observation into Engram",
-    promptSnippet: "Save a memory observation with a title, type, and structured content",
-    promptGuidelines: ["Use mem_save after a fix, decision, discovery, or preference change."],
+    promptSnippet: "Save a memory observation with a title, optional type, and structured content",
+    promptGuidelines: [
+      "Use mem_save after a fix, decision, discovery, or preference change.",
+      "Use mem_current_project first if you need to confirm the active project before writing.",
+    ],
   },
   { name: "mem_update", description: "Update an existing memory observation" },
   { name: "mem_delete", description: "Delete a memory observation", scope: "admin" },
@@ -39,6 +42,10 @@ export const engramTools: EngramToolDefinition[] = [
   { name: "mem_stats", description: "Show Engram memory statistics", scope: "admin" },
   { name: "mem_capture_passive", description: "Save passive learnings from a long tool output" },
   { name: "mem_merge_projects", description: "Merge two project names in Engram", scope: "admin" },
+  { name: "mem_current_project", description: "Detect the current project from the working directory" },
+  { name: "mem_judge", description: "Record a verdict on a pending memory conflict" },
+  { name: "mem_doctor", description: "Run read-only operational diagnostics on Engram" },
+  { name: "mem_compare", description: "Persist a semantic verdict on two observations into Engram" },
 ]
 
 export function getEngramToolSchema(name: EngramToolName) {
